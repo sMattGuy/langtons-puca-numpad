@@ -49,11 +49,22 @@ uint8_t testArray[32][32] = {0};
 uint8_t antX = 15;
 uint8_t antY = 15;
 uint8_t antFacing = 0;
-
+		
 bool oled_task_kb(void) {
     if (!oled_task_user()) { return false; }
 	
-	
+for(uint8_t i=0;i<32;i++){
+	for(uint8_t j=0;j<32;j++){
+		switch(testArray[i][j]){
+			case 0:
+				oled_write_pixel(i,j,true);
+				break;
+			case 1:
+				oled_write_pixel(i,j,false);
+		}
+		
+	}
+}
 	
 // WPM-responsive animation stuff here
 #    define IDLE_FRAMES 2
@@ -93,18 +104,16 @@ bool oled_task_kb(void) {
 				if(antX > 31) antX = 31;
 		}
 		//draw
-		for(uint8_t i=0;i<32;i++){
-			for(uint8_t j=0;j<32;j++){
-				switch(testArray[i][j]){
-					case 0:
-						oled_write_pixel(i,j,true);
-						break;
-					case 1:
-						oled_write_pixel(i,j,false);
-				}
-				
-			}
+		switch(testArray[antX][antY]){
+			case 0:
+				oled_write_pixel(antX,antY,true);
+				break;
+			case 1:
+				oled_write_pixel(antX,antY,false);
 		}
+		/*
+		
+		*/
     }
     if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
         anim_timer = timer_read32();
